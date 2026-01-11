@@ -57,9 +57,24 @@ export function About() {
       ref={sectionRef}
       className="relative py-32 overflow-hidden bg-matte-black"
     >
+      {/* Texture Overlays */}
+      <div className="absolute inset-0 opacity-[0.03] pointer-events-none mix-blend-overlay bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]" />
+      
       {/* Background Kinetic Typography */}
       <div className="about-bg-text absolute top-1/2 left-0 -translate-y-1/2 whitespace-nowrap text-[20vw] font-black italic opacity-[0.02] pointer-events-none select-none uppercase">
         DISCIPLINE POWER RESILIENCE DISCIPLINE POWER RESILIENCE
+      </div>
+
+      {/* Decorative SVG Pattern */}
+      <div className="absolute top-0 right-0 w-1/3 h-full opacity-[0.05] pointer-events-none">
+        <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none">
+          <defs>
+            <pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse">
+              <path d="M 10 0 L 0 0 0 10" fill="none" stroke="white" strokeWidth="0.5"/>
+            </pattern>
+          </defs>
+          <rect width="100" height="100" fill="url(#grid)" />
+        </svg>
       </div>
 
       <div className="container mx-auto px-4 relative z-10">
