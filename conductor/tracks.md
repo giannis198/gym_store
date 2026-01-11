@@ -9,5 +9,5 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ---
 
-## [ ] Track: Core Information Sections (Programs, Coaches, and About)
+## [~] Track: Core Information Sections (Programs, Coaches, and About)
 *Link: [./conductor/tracks/info_sections_20260111/](./conductor/tracks/info_sections_20260111/)*
