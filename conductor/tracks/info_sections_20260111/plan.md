@@ -5,11 +5,11 @@
 - [x] Task: Integrate "Abstract & Graphic" stylized textures/images into the About layout. 81f332f
 - [x] Task: Conductor - User Manual Verification 'About Section Implementation' (Protocol in workflow.md) b83d4d6
 
-## Phase 2: Training Programs Section
+## Phase 2: Training Programs Section [checkpoint: ba7f4dd]
 - [x] Task: Build interactive 'Program Card' components using the PremiumCard base. 8a3b96c
 - [x] Task: Implement the 'Programs' section grid with staggered GSAP reveal animations. 8a3b96c
 - [x] Task: Add program-specific details (Intensity, Goals) with high-contrast styling. 8a3b96c
-- [~] Task: Conductor - User Manual Verification 'Training Programs Section' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Training Programs Section' (Protocol in workflow.md) ba7f4dd
 
 ## Phase 3: Coaches & Refinement
 - [ ] Task: Implement the 'Coaches' grid with motion-driven image reveals.
