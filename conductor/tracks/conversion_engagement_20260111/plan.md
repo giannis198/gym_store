@@ -6,9 +6,9 @@
 - [x] Task: Conductor - User Manual Verification 'Membership & Pricing' (Protocol in workflow.md) 7e26321
 
 ## Phase 2: Class Schedule
-- [ ] Task: Build the 'Schedule' section with a tabbed daily interface (Monday - Sunday).
-- [ ] Task: Implement responsive class cards showing time, program, and coach.
-- [ ] Task: Conductor - User Manual Verification 'Class Schedule' (Protocol in workflow.md)
+- [x] Task: Build the 'Schedule' section with a tabbed daily interface (Monday - Sunday). 2b7d511
+- [x] Task: Implement responsive class cards showing time, program, and coach. 2b7d511
+- [~] Task: Conductor - User Manual Verification 'Class Schedule' (Protocol in workflow.md)
 
 ## Phase 3: Contact & Final CTA
 - [ ] Task: Implement the 'Contact' section with a lead capture form and validation.
