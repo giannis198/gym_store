@@ -84,7 +84,11 @@ export function Hero() {
           Premium boxing training for those who value power, discipline, and elite-level athleticism.
         </p>
 
-        <div ref={ctaRef}>
+        <div 
+          ref={ctaRef}
+          onMouseEnter={() => gsap.to(ctaRef.current, { scale: 1.1, duration: 0.3, ease: 'back.out(2)' })}
+          onMouseLeave={() => gsap.to(ctaRef.current, { scale: 1, duration: 0.3, ease: 'power2.out' })}
+        >
           <PremiumButton size="lg" className="px-12 py-8 text-xl">
             Explore Programs
           </PremiumButton>
