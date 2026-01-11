@@ -14,5 +14,5 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ---
 
-## [ ] Track: Conversion & Engagement (Membership, Schedule, and Contact)
+## [~] Track: Conversion & Engagement (Membership, Schedule, and Contact)
 *Link: [./conductor/tracks/conversion_engagement_20260111/](./conductor/tracks/conversion_engagement_20260111/)*
