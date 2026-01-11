@@ -18,7 +18,7 @@ export function Hero() {
       isDesktop: "(min-width: 768px)",
       isMobile: "(max-width: 767px)"
     }, (context) => {
-      const { isDesktop } = context.conditions as any
+      const isDesktop = context.conditions?.isDesktop as boolean
       const tl = gsap.timeline({ defaults: { ease: 'power4.out', duration: isDesktop ? 1.2 : 0.8 } })
 
       tl.fromTo('.hero-bg-accent', 
