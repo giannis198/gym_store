@@ -39,18 +39,33 @@ export function Programs() {
   const sectionRef = useRef<HTMLDivElement>(null)
 
   useGSAP(() => {
-    gsap.from('.program-card', {
-      scrollTrigger: {
-        trigger: sectionRef.current,
-        start: 'top 70%',
-        toggleActions: 'play none none reverse',
+    // Ensure all cards are initially hidden via GSAP to prevent flash of unstyled content
+    gsap.set('.program-card', { y: 100, opacity: 0 })
+
+    ScrollTrigger.batch('.program-card', {
+      onEnter: (elements) => {
+        gsap.to(elements, {
+          y: 0,
+          opacity: 1,
+          stagger: 0.15,
+          duration: 1,
+          ease: 'power4.out',
+          overwrite: true
+        })
       },
-      y: 60,
-      opacity: 0,
-      stagger: 0.15,
-      duration: 0.8,
-      ease: 'power3.out',
+      onLeaveBack: (elements) => {
+        gsap.to(elements, {
+          y: 100,
+          opacity: 0,
+          stagger: 0.1,
+          duration: 0.5,
+          ease: 'power2.in'
+        })
+      },
+      start: 'top 90%',
     })
+
+    ScrollTrigger.refresh()
   }, { scope: sectionRef })
 
   return (

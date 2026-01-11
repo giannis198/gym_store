@@ -21,17 +21,20 @@ export function About() {
       isMobile: "(max-width: 767px)"
     }, (context) => {
       const isDesktop = context.conditions?.isDesktop as boolean
-      gsap.from('.about-reveal', {
+      
+      // Initial state
+      gsap.set('.about-reveal', { y: 100, opacity: 0 })
+
+      gsap.to('.about-reveal', {
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: 'top 80%',
-          end: 'bottom 20%',
+          start: 'top 90%',
           toggleActions: 'play none none reverse',
         },
-        y: 100,
-        opacity: 0,
+        y: 0,
+        opacity: 1,
         stagger: 0.2,
-        duration: 1,
+        duration: 1.2,
         ease: 'power4.out',
       })
 
@@ -41,11 +44,13 @@ export function About() {
           trigger: sectionRef.current,
           start: 'top bottom',
           end: 'bottom top',
-          scrub: true,
+          scrub: 1,
         },
         x: isDesktop ? -200 : -100,
         ease: 'none',
       })
+
+      ScrollTrigger.refresh()
 
       return () => mm.revert()
     })
