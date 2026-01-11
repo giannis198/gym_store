@@ -12,10 +12,16 @@
 - **Patterns:** Inline GSAP logic within components for unique, high-impact section reveals and micro-interactions.
 
 ## Content & Backend
-- **CMS:** Headless CMS (e.g., Contentful or Sanity) for managing schedules, coaches, and pricing plans.
-- **Data Fetching:** Next.js Server Components and Server Actions for efficient, secure communication with the CMS.
+- **Authentication:** BetterAuth for secure, modern user authentication and session management.
+- **Database:** PostgreSQL for reliable, relational data storage (Users, Bookings, Subscriptions).
+- **ORM:** Prisma for type-safe database access and migrations.
+- **CMS:** Headless CMS (e.g., Contentful or Sanity) for managing marketing content (schedules, coach bios).
+- **Data Fetching:** Next.js Server Components and Server Actions for efficient, secure communication with the database and CMS.
 
 ## Performance & Assets
 - **Image Handling:** Next.js `Image` component optimized via Vercel/Cloudinary for modern formats and responsive delivery.
 - **Deployment:** Vercel for seamless integration with Next.js features and global performance.
 - **SEO:** Built-in Next.js metadata API for robust search engine optimization.
+
+---
+**Note (2026-01-11):** Updated backend architecture to include BetterAuth, PostgreSQL, and Prisma to support user accounts, class bookings, and subscription management.
