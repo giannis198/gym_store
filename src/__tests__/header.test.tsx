@@ -15,4 +15,10 @@ describe('Header Component', () => {
     expect(screen.getByText(/Schedule/i)).toBeInTheDocument()
     expect(screen.getByText(/Pricing/i)).toBeInTheDocument()
   })
+
+  it('should render mobile menu trigger', () => {
+    render(<Header />)
+    const trigger = screen.getByRole('button', { name: /open menu/i })
+    expect(trigger).toBeInTheDocument()
+  })
 })

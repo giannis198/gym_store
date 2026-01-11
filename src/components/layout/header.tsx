@@ -3,6 +3,7 @@
 import React from 'react'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
+import { Menu } from 'lucide-react'
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -10,6 +11,13 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet"
 
 const navItems = [
   { title: "Programs", href: "/#programs" },
@@ -26,6 +34,7 @@ export function Header() {
           IRON <span className="text-neon-volt">&</span> GLOVES
         </Link>
 
+        {/* Desktop Navigation */}
         <NavigationMenu className="hidden md:flex">
           <NavigationMenuList>
             {navItems.map((item) => (
@@ -46,10 +55,46 @@ export function Header() {
         <div className="flex items-center gap-4">
           <Link 
             href="/#contact" 
-            className="text-xs font-bold uppercase tracking-widest bg-white text-black px-6 py-2 rounded-full hover:bg-neon-volt transition-colors"
+            className="hidden sm:block text-xs font-bold uppercase tracking-widest bg-white text-black px-6 py-2 rounded-full hover:bg-neon-volt transition-colors"
           >
             Join Now
           </Link>
+
+          {/* Mobile Sidebar */}
+          <Sheet>
+            <SheetTrigger asChild>
+              <button 
+                className="md:hidden p-2 text-white hover:text-neon-volt transition-colors"
+                aria-label="Open Menu"
+              >
+                <Menu className="w-6 h-6" />
+              </button>
+            </SheetTrigger>
+            <SheetContent side="right" className="bg-matte-black border-white/10 text-white flex flex-col items-center justify-center">
+              <SheetHeader className="w-full">
+                <SheetTitle className="text-white font-black italic tracking-tighter text-center mb-8 text-3xl">
+                  IRON <span className="text-neon-volt">&</span> GLOVES
+                </SheetTitle>
+              </SheetHeader>
+              <nav className="flex flex-col gap-8 mt-8 items-center w-full">
+                {navItems.map((item) => (
+                  <Link 
+                    key={item.title}
+                    href={item.href}
+                    className="text-3xl font-bold uppercase tracking-tight hover:text-neon-volt transition-colors"
+                  >
+                    {item.title}
+                  </Link>
+                ))}
+                <Link 
+                  href="/#contact" 
+                  className="mt-8 text-center font-bold uppercase tracking-widest bg-neon-volt text-black py-4 px-12 rounded-full w-full max-w-[250px]"
+                >
+                  Join Now
+                </Link>
+              </nav>
+            </SheetContent>
+          </Sheet>
         </div>
       </div>
     </header>

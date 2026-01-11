@@ -66,18 +66,18 @@ export function Hero() {
           ref={titleRef}
           className="text-7xl md:text-9xl font-black italic tracking-tighter leading-[0.8] mb-8 uppercase"
         >
-          <div className="overflow-hidden inline-block">
+          <div className="overflow-visible inline-block px-4">
             <span className="char inline-block">I</span>
             <span className="char inline-block">R</span>
             <span className="char inline-block">O</span>
             <span className="char inline-block">N</span>
           </div>
           <br />
-          <div className="overflow-hidden inline-block text-neon-volt">
+          <div className="overflow-visible inline-block text-neon-volt px-4">
             <span className="char inline-block">&</span>
           </div>
           <br />
-          <div className="overflow-hidden inline-block">
+          <div className="overflow-visible inline-block px-4">
             <span className="char inline-block">G</span>
             <span className="char inline-block">L</span>
             <span className="char inline-block">O</span>
