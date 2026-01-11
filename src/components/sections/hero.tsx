@@ -19,10 +19,15 @@ export function Hero() {
       { scaleX: 1, duration: 1.5 }
     )
     .from('.char', {
-      y: 100,
+      y: 150,
+      rotateX: -90,
       opacity: 0,
-      stagger: 0.05,
-      duration: 1,
+      stagger: {
+        each: 0.05,
+        from: 'random'
+      },
+      duration: 1.5,
+      ease: 'elastic.out(1, 0.75)'
     }, "-=0.8")
     .from(subtitleRef.current, {
       y: 30,
