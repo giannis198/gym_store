@@ -12,32 +12,42 @@ export function Hero() {
   const ctaRef = useRef<HTMLDivElement>(null)
 
   useGSAP(() => {
-    const tl = gsap.timeline({ defaults: { ease: 'power4.out', duration: 1.2 } })
+    const mm = gsap.matchMedia()
 
-    tl.fromTo('.hero-bg-accent', 
-      { scaleX: 0, transformOrigin: 'left' }, 
-      { scaleX: 1, duration: 1.5 }
-    )
-    .from('.char', {
-      y: 150,
-      rotateX: -90,
-      opacity: 0,
-      stagger: {
-        each: 0.05,
-        from: 'random'
-      },
-      duration: 1.5,
-      ease: 'elastic.out(1, 0.75)'
-    }, "-=0.8")
-    .from(subtitleRef.current, {
-      y: 30,
-      opacity: 0,
-    }, "-=0.6")
-    .from(ctaRef.current, {
-      y: 30,
-      opacity: 0,
-      scale: 0.9,
-    }, "-=0.8")
+    mm.add({
+      isDesktop: "(min-width: 768px)",
+      isMobile: "(max-width: 767px)"
+    }, (context) => {
+      const { isDesktop } = context.conditions as any
+      const tl = gsap.timeline({ defaults: { ease: 'power4.out', duration: isDesktop ? 1.2 : 0.8 } })
+
+      tl.fromTo('.hero-bg-accent', 
+        { scaleX: 0, transformOrigin: 'left' }, 
+        { scaleX: 1, duration: 1.5 }
+      )
+      .from('.char', {
+        y: isDesktop ? 150 : 50,
+        rotateX: isDesktop ? -90 : 0,
+        opacity: 0,
+        stagger: {
+          each: isDesktop ? 0.05 : 0.03,
+          from: isDesktop ? 'random' : 'start'
+        },
+        duration: isDesktop ? 1.5 : 1,
+        ease: isDesktop ? 'elastic.out(1, 0.75)' : 'power3.out'
+      }, "-=0.8")
+      .from(subtitleRef.current, {
+        y: 30,
+        opacity: 0,
+      }, "-=0.6")
+      .from(ctaRef.current, {
+        y: 30,
+        opacity: 0,
+        scale: 0.9,
+      }, "-=0.8")
+
+      return () => mm.revert()
+    })
   }, { scope: containerRef })
 
   return (
