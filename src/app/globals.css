@@ -1,4 +1,7 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
 
 :root {
   --background: #050505;
@@ -7,22 +10,76 @@
   --matte-black: #050505;
   --slate-grey: #1E1E1E;
   --neon-volt: #C6FF00;
+  
+  --card: #0A0A0A;
+  --card-foreground: #ffffff;
+  
+  --popover: #0A0A0A;
+  --popover-foreground: #ffffff;
+  
+  --primary: #C6FF00;
+  --primary-foreground: #050505;
+  
+  --secondary: #1E1E1E;
+  --secondary-foreground: #ffffff;
+  
+  --muted: #1E1E1E;
+  --muted-foreground: #A1A1AA;
+  
+  --accent: #C6FF00;
+  --accent-foreground: #050505;
+  
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  
+  --border: #27272A;
+  --input: #27272A;
+  --ring: #C6FF00;
+  
+  --radius: 0.5rem;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  
+
   --color-matte-black: var(--matte-black);
   --color-slate-grey: var(--slate-grey);
   --color-neon-volt: var(--neon-volt);
-  
+
   --font-sans: "Inter", "System UI", sans-serif;
+
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans);
-  -webkit-font-smoothing: antialiased;
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
 }
