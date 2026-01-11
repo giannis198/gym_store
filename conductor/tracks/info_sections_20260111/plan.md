@@ -12,7 +12,7 @@
 - [x] Task: Conductor - User Manual Verification 'Training Programs Section' (Protocol in workflow.md) ba7f4dd
 
 ## Phase 3: Coaches & Refinement
-- [ ] Task: Implement the 'Coaches' grid with motion-driven image reveals.
-- [ ] Task: Create coach detail interaction (e.g., bio reveal or modal).
-- [ ] Task: Finalize section anchoring and perform a responsive design pass.
-- [ ] Task: Conductor - User Manual Verification 'Coaches & Refinement' (Protocol in workflow.md)
+- [x] Task: Implement the 'Coaches' grid with motion-driven image reveals. 1124d9b
+- [x] Task: Create coach detail interaction (e.g., bio reveal or modal). 1124d9b
+- [x] Task: Finalize section anchoring and perform a responsive design pass. 1124d9b
+- [~] Task: Conductor - User Manual Verification 'Coaches & Refinement' (Protocol in workflow.md)
