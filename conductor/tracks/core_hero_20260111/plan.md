@@ -1,7 +1,7 @@
 # Plan: Core Visual Identity & Hero Section
 
 ## Phase 1: Foundation & Styling
-- [ ] Task: Configure Tailwind CSS with the "Modern Stealth" brand palette and typography.
+- [~] Task: Configure Tailwind CSS with the "Modern Stealth" brand palette and typography.
 - [ ] Task: Set up shadcn/ui base components and create custom wrappers for "Premium" elements.
 - [ ] Task: Implement the Root Layout with the responsive Smart Navigation Bar.
 - [ ] Task: Conductor - User Manual Verification 'Foundation & Styling' (Protocol in workflow.md)
