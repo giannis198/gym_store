@@ -6,10 +6,10 @@
 - [x] Task: Conductor - User Manual Verification 'About Section Implementation' (Protocol in workflow.md) b83d4d6
 
 ## Phase 2: Training Programs Section
-- [ ] Task: Build interactive 'Program Card' components using the PremiumCard base.
-- [ ] Task: Implement the 'Programs' section grid with staggered GSAP reveal animations.
-- [ ] Task: Add program-specific details (Intensity, Goals) with high-contrast styling.
-- [ ] Task: Conductor - User Manual Verification 'Training Programs Section' (Protocol in workflow.md)
+- [x] Task: Build interactive 'Program Card' components using the PremiumCard base. 8a3b96c
+- [x] Task: Implement the 'Programs' section grid with staggered GSAP reveal animations. 8a3b96c
+- [x] Task: Add program-specific details (Intensity, Goals) with high-contrast styling. 8a3b96c
+- [~] Task: Conductor - User Manual Verification 'Training Programs Section' (Protocol in workflow.md)
 
 ## Phase 3: Coaches & Refinement
 - [ ] Task: Implement the 'Coaches' grid with motion-driven image reveals.
