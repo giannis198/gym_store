@@ -1,9 +1,9 @@
 # Plan: Conversion & Engagement (Membership, Schedule, and Contact)
 
 ## Phase 1: Membership & Pricing
-- [ ] Task: Implement the 'Pricing' section with an interactive tier comparison grid.
-- [ ] Task: Create 'Price Card' component with detailed features and GSAP hover scaling.
-- [ ] Task: Conductor - User Manual Verification 'Membership & Pricing' (Protocol in workflow.md)
+- [x] Task: Implement the 'Pricing' section with an interactive tier comparison grid. eacfb5c
+- [x] Task: Create 'Price Card' component with detailed features and GSAP hover scaling. eacfb5c
+- [~] Task: Conductor - User Manual Verification 'Membership & Pricing' (Protocol in workflow.md)
 
 ## Phase 2: Class Schedule
 - [ ] Task: Build the 'Schedule' section with a tabbed daily interface (Monday - Sunday).
