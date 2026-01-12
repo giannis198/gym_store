@@ -14,11 +14,11 @@
 - [x] Task: Implement Google OAuth support in BetterAuth and add a "Sign in with Google" button. [8ad3fb0]
 - [x] Task: Conductor - User Manual Verification 'Authentication (BetterAuth)' (Protocol in workflow.md)
 
-## Phase 3: Content Management (Custom Admin Panel)
+## Phase 3: Content Management (Custom Admin Panel) [checkpoint: 58ab5f1]
 - [x] Task: Define Prisma models for Program, Coach, and Schedule. [5fb0b90]
 - [x] Task: Implement API routes/Server Actions for CRUD operations on these models. [34696fa]
 - [x] Task: Design and Implement a basic Admin Panel layout at /admin. [b5dd7ef]
 - [x] Task: Implement the Admin Panel UI for managing Programs, Coaches, and Schedule. [0c8731e]
 - [x] Task: Implement a basic "Login" button in the header that reacts to auth state. [7960aee]
 - [x] Task: Refactor frontend components (About, Programs, Coaches, Schedule) to fetch data from the database. [0c8731e]
-- [~] Task: Conductor - User Manual Verification 'Custom Admin Panel & Content Management' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Custom Admin Panel & Content Management' (Protocol in workflow.md)
