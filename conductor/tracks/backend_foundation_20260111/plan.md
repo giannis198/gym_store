@@ -1,7 +1,7 @@
 # Plan: Backend Foundation & Content Management
 
 ## Phase 1: Database & ORM Setup
-- [ ] Task: Initialize Prisma and configure the PostgreSQL connection.
+- [x] Task: Initialize Prisma and configure the PostgreSQL connection. [98a875e]
 - [ ] Task: Define the core database schema and perform the initial migration.
 - [ ] Task: Create a database utility client for server-side queries.
 - [ ] Task: Conductor - User Manual Verification 'Database & ORM Setup' (Protocol in workflow.md)
