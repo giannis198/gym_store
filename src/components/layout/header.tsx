@@ -40,6 +40,11 @@ const navItems = [
 export function Header() {
   const { data: session, isPending } = useSession();
   const router = useRouter();
+  
+  // Debugging session role
+  if (session?.user) {
+    console.log("Header Session User:", session.user);
+  }
 
   const handleLogout = async () => {
     await signOut();
@@ -103,6 +108,9 @@ export function Header() {
                       <Link href="/admin">Dashboard</Link>
                     </DropdownMenuItem>
                   )}
+                  <DropdownMenuItem asChild className="focus:bg-white/5 focus:text-neon-volt cursor-pointer">
+                    <Link href="/profile">Profile</Link>
+                  </DropdownMenuItem>
                   <DropdownMenuItem onClick={handleLogout} className="focus:bg-white/5 focus:text-neon-volt cursor-pointer">
                     Logout
                   </DropdownMenuItem>
@@ -175,6 +183,13 @@ export function Header() {
                         Dashboard
                       </Link>
                     )}
+
+                    <Link 
+                        href="/profile"
+                        className="text-xl font-bold uppercase tracking-tight text-white hover:text-neon-volt transition-colors"
+                      >
+                        Profile
+                    </Link>
                     
                     <Button 
                       onClick={handleLogout} 

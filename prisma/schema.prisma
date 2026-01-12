@@ -23,8 +23,24 @@ model User {
   sessions      Session[]
   accounts      Account[]
   bookings      ClassBooking[]
+  subscription  Subscription?
 
   @@map("user")
+}
+
+model Subscription {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tier      String
+  status    String   @default("ACTIVE")
+  startDate DateTime @default(now())
+  endDate   DateTime?
+  price     Float
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("subscription")
 }
 
 model Session {

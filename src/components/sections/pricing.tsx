@@ -7,6 +7,9 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { PremiumCard } from '@/components/ui/premium-card'
 import { PremiumButton } from '@/components/ui/premium-button'
 import { Check } from 'lucide-react'
+import { purchaseSubscription } from '@/lib/actions/checkout'
+import { toast } from 'react-hot-toast'
+import { useRouter } from 'next/navigation'
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger)
@@ -35,6 +38,20 @@ const tiers = [
 
 export function Pricing() {
   const sectionRef = useRef<HTMLDivElement>(null)
+  const router = useRouter()
+
+  const handlePurchase = async (tier: string) => {
+    try {
+      const res = await purchaseSubscription(tier)
+      if (res.success) {
+        toast.success(`Successfully subscribed to ${tier} plan!`)
+        router.push('/profile')
+      }
+    } catch (error) {
+      toast.error("Please login to subscribe")
+      router.push('/login')
+    }
+  }
 
   useGSAP(() => {
     gsap.set('.pricing-card', { y: 100, opacity: 0 })
@@ -106,6 +123,7 @@ export function Pricing() {
                 <PremiumButton 
                   className="w-full py-6" 
                   glow={tier.recommended}
+                  onClick={() => handlePurchase(tier.name)}
                 >
                   Select Plan
                 </PremiumButton>

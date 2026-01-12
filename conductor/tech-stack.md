@@ -15,7 +15,7 @@
 - **Authentication:** BetterAuth for secure, modern user authentication and session management.
 - **Database:** PostgreSQL for reliable, relational data storage (Users, Bookings, Subscriptions).
 - **ORM:** Prisma for type-safe database access and migrations.
-- **CMS:** Headless CMS (e.g., Contentful or Sanity) for managing marketing content (schedules, coach bios).
+- **CMS:** Custom-built Admin Panel using Next.js Server Actions and Prisma for managing marketing content (programs, coaches, schedules).
 - **Data Fetching:** Next.js Server Components and Server Actions for efficient, secure communication with the database and CMS.
 
 ## Performance & Assets

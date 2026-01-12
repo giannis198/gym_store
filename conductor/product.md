@@ -49,6 +49,8 @@ IRON & GLOVES is a premium, modern boxing gym designed for fitness enthusiasts a
 3. **Information Clarity:** Provide seamless access to training programs, schedules, and membership tiers.
 
 ## Key Features & Content
+- **Custom Admin Dashboard:** A secure, internal management interface for staff to update club programs, coaching staff, and training schedules in real-time.
+- **Member Profile Dashboard:** A personalized space for members to view active subscriptions and manage class bookings.
 - **Interactive Membership Comparison:** A high-impact table highlighting the benefits of different membership tiers (Basic, Pro, Elite).
 - **Program Spotlights:** Detailed overviews of training tracks like Boxfit, Technical Boxing, and Strength & Conditioning.
 - **Dynamic Schedule:** A modern, easy-to-navigate interface for viewing class times and availability.
