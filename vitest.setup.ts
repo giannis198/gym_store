@@ -1,5 +1,8 @@
 import '@testing-library/jest-dom'
 import { vi } from 'vitest'
+import dotenv from 'dotenv'
+
+dotenv.config({ path: '.env' })
 
 Object.defineProperty(window, 'matchMedia', {
   writable: true,
