@@ -10,6 +10,7 @@ This track transitions IRON & GLOVES from a static landing page to a dynamic, da
 - **Authentication (BetterAuth):**
     - Configure BetterAuth with Prisma adapter.
     - Support Email/Password login.
+    - Support Google OAuth login.
     - Implement basic "User" and "Admin" roles.
 - **Content Management (Sanity):**
     - Initialize Sanity.io Studio.
