@@ -10,28 +10,15 @@ if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger)
 }
 
-const coaches = [
-  {
-    name: "Marcus \"The Tank\" Reed",
-    role: "Head Coach / Heavyweight",
-    bio: "Former professional heavyweight with 15 years of ringside experience. Specializes in power delivery and tactical pressure.",
-    image: "https://images.unsplash.com/photo-1561532325-7d5231a2dede?q=80&w=800&auto=format&fit=crop"
-  },
-  {
-    name: "Sarah \"Lighting\" Chen",
-    role: "Technical Lead / Lightweight",
-    bio: "National amateur champion. Expert in high-velocity combinations and precision counter-punching.",
-    image: "https://images.unsplash.com/photo-1594381898411-846e7d193883?q=80&w=800&auto=format&fit=crop"
-  },
-  {
-    name: "Elena \"The Shadow\" Volkov",
-    role: "Strength & Conditioning",
-    bio: "Elite athletic trainer. Focuses on functional mobility, explosive power, and metabolic conditioning.",
-    image: "https://images.unsplash.com/photo-1518611012118-696072aa579a?q=80&w=800&auto=format&fit=crop"
-  }
-]
+export interface CoachData {
+  id: string
+  name: string
+  role: string
+  bio: string
+  image?: string
+}
 
-export function Coaches() {
+export function Coaches({ coaches = [] }: { coaches?: CoachData[] }) {
   const sectionRef = useRef<HTMLDivElement>(null)
 
   useGSAP(() => {

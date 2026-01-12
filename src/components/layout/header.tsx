@@ -64,6 +64,14 @@ export function Header() {
         </NavigationMenu>
 
         <div className="flex items-center gap-4">
+          {status === 'authenticated' && (session.user as any).role === 'admin' && (
+            <Link 
+              href="/admin"
+              className="hidden sm:block text-xs font-bold uppercase tracking-widest text-neon-volt hover:text-white transition-colors"
+            >
+              Dashboard
+            </Link>
+          )}
           {status === 'authenticated' ? (
             <Button 
               onClick={handleLogout} 
@@ -106,6 +114,14 @@ export function Header() {
                     {item.title}
                   </Link>
                 ))}
+                {status === 'authenticated' && (session.user as any).role === 'admin' && (
+                  <Link 
+                    href="/admin"
+                    className="text-3xl font-bold uppercase tracking-tight text-neon-volt hover:text-white transition-colors"
+                  >
+                    Dashboard
+                  </Link>
+                )}
                 {status === 'authenticated' ? (
                   <Button 
                     onClick={handleLogout} 

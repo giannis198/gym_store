@@ -11,44 +11,29 @@ if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger)
 }
 
-const scheduleData = {
-  "Mon": [
-    { time: "06:00 AM", program: "Boxing Tech", coach: "Sarah Chen" },
-    { time: "09:00 AM", program: "Boxfit", coach: "Elena Volkov" },
-    { time: "05:30 PM", program: "Boxing Tech", coach: "Marcus Reed" },
-    { time: "07:00 PM", program: "Strength & Cond", coach: "Elena Volkov" }
-  ],
-  "Tue": [
-    { time: "07:00 AM", program: "Strength & Cond", coach: "Elena Volkov" },
-    { time: "12:00 PM", program: "Boxfit", coach: "Sarah Chen" },
-    { time: "06:00 PM", program: "Boxing Tech", coach: "Marcus Reed" }
-  ],
-  "Wed": [
-    { time: "06:00 AM", program: "Boxing Tech", coach: "Sarah Chen" },
-    { time: "05:30 PM", program: "Boxfit", coach: "Elena Volkov" },
-    { time: "07:00 PM", program: "Boxing Tech", coach: "Marcus Reed" }
-  ],
-  "Thu": [
-    { time: "07:00 AM", program: "Strength & Cond", coach: "Elena Volkov" },
-    { time: "06:00 PM", program: "Boxing Tech", coach: "Sarah Chen" }
-  ],
-  "Fri": [
-    { time: "06:00 AM", program: "Boxfit", coach: "Elena Volkov" },
-    { time: "05:30 PM", program: "Boxing Tech", coach: "Marcus Reed" }
-  ],
-  "Sat": [
-    { time: "09:00 AM", program: "Boxing Tech", coach: "Sarah Chen" },
-    { time: "11:00 AM", program: "Strength & Cond", coach: "Marcus Reed" }
-  ],
-  "Sun": [
-    { time: "10:00 AM", program: "Boxfit", coach: "Elena Volkov" }
-  ]
+export interface ScheduleItemData {
+  id: string
+  day: string
+  time: string
+  program: { title: string }
+  coach: { name: string }
 }
 
-const days = Object.keys(scheduleData) as Array<keyof typeof scheduleData>
-
-export function Schedule() {
+export function Schedule({ scheduleItems = [] }: { scheduleItems?: ScheduleItemData[] }) {
   const sectionRef = useRef<HTMLDivElement>(null)
+
+  const scheduleData: Record<string, any[]> = scheduleItems.reduce((acc, item) => {
+    const day = item.day
+    if (!acc[day]) acc[day] = []
+    acc[day].push({
+      time: item.time,
+      program: item.program.title,
+      coach: item.coach.name
+    })
+    return acc
+  }, {} as any)
+
+  const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].filter(day => scheduleData[day])
 
   useGSAP(() => {
     gsap.from('.schedule-header', {
