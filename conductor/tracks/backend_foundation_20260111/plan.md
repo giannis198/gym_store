@@ -18,7 +18,7 @@
 - [x] Task: Define Prisma models for Program, Coach, and Schedule. [5fb0b90]
 - [x] Task: Implement API routes/Server Actions for CRUD operations on these models. [34696fa]
 - [x] Task: Design and Implement a basic Admin Panel layout at /admin. [b5dd7ef]
-- [~] Task: Implement the Admin Panel UI for managing Programs, Coaches, and Schedule.
+- [x] Task: Implement the Admin Panel UI for managing Programs, Coaches, and Schedule. [0c8731e]
 - [x] Task: Implement a basic "Login" button in the header that reacts to auth state. [7960aee]
-- [ ] Task: Refactor frontend components (About, Programs, Coaches, Schedule) to fetch data from the database.
-- [ ] Task: Conductor - User Manual Verification 'Custom Admin Panel & Content Management' (Protocol in workflow.md)
+- [x] Task: Refactor frontend components (About, Programs, Coaches, Schedule) to fetch data from the database. [0c8731e]
+- [~] Task: Conductor - User Manual Verification 'Custom Admin Panel & Content Management' (Protocol in workflow.md)
