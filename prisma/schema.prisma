@@ -84,3 +84,44 @@ model ClassBooking {
 
   @@map("class_booking")
 }
+
+model Program {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  intensity   String
+  icon        String?
+  color       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  scheduleItems ScheduleItem[]
+
+  @@map("program")
+}
+
+model Coach {
+  id        String   @id @default(cuid())
+  name      String
+  role      String
+  bio       String
+  image     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  scheduleItems ScheduleItem[]
+
+  @@map("coach")
+}
+
+model ScheduleItem {
+  id        String   @id @default(cuid())
+  day       String
+  time      String
+  programId String
+  program   Program  @relation(fields: [programId], references: [id], onDelete: Cascade)
+  coachId   String
+  coach     Coach    @relation(fields: [coachId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("schedule_item")
+}
