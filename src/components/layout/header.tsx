@@ -2,9 +2,9 @@
 
 import React from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation' // Import useRouter
+import { useRouter } from 'next/navigation'
 import { cn } from '@/lib/utils'
-import { Menu } from 'lucide-react'
+import { Menu, User } from 'lucide-react'
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -19,8 +19,16 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
-import { Button } from '@/components/ui/button' // Assuming a Button component exists
-import { useSession, signOut } from '@/lib/auth-client' // Import useSession and signOut
+import { Button } from '@/components/ui/button'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { useSession, signOut } from '@/lib/auth-client'
 
 const navItems = [
   { title: "Programs", href: "/#programs" },
@@ -30,12 +38,12 @@ const navItems = [
 ]
 
 export function Header() {
-  const { data: session, status } = useSession(); // Use the session hook
+  const { data: session, status } = useSession();
   const router = useRouter();
 
   const handleLogout = async () => {
     await signOut();
-    router.push('/login'); // Redirect to login page after logout
+    router.push('/login');
   };
 
   return (
@@ -64,24 +72,46 @@ export function Header() {
         </NavigationMenu>
 
         <div className="flex items-center gap-4">
-          {status === 'authenticated' && (session.user as any).role === 'admin' && (
-            <Link 
-              href="/admin"
-              className="hidden sm:block text-xs font-bold uppercase tracking-widest text-neon-volt hover:text-white transition-colors"
-            >
-              Dashboard
-            </Link>
-          )}
-          {status === 'authenticated' ? (
-            <Button 
-              onClick={handleLogout} 
-              className="hidden sm:block text-xs font-bold uppercase tracking-widest bg-white text-black px-6 py-2 rounded-full hover:bg-neon-volt transition-colors"
-            >
-              Logout
-            </Button>
+          {status === 'authenticated' && session?.user ? (
+            <div className="hidden sm:block">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="relative h-10 w-10 rounded-full overflow-hidden border border-white/10 hover:border-neon-volt/50 transition-colors">
+                    {session.user.image ? (
+                      <img 
+                        src={session.user.image} 
+                        alt={session.user.name || "User"} 
+                        className="h-full w-full object-cover"
+                      />
+                    ) : (
+                      <div className="h-full w-full bg-slate-grey/20 flex items-center justify-center">
+                        <User className="h-5 w-5 text-white/50" />
+                      </div>
+                    )}
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56 bg-matte-black border-white/10 text-white" align="end" forceMount>
+                  <DropdownMenuLabel className="font-normal">
+                    <div className="flex flex-col space-y-1">
+                      <p className="text-sm font-medium leading-none text-white">{session.user.name}</p>
+                      <p className="text-xs leading-none text-white/50">{session.user.email}</p>
+                    </div>
+                  </DropdownMenuLabel>
+                  <DropdownMenuSeparator className="bg-white/10" />
+                  {(session.user as any).role === 'admin' && (
+                    <DropdownMenuItem asChild className="focus:bg-white/5 focus:text-neon-volt cursor-pointer">
+                      <Link href="/admin">Dashboard</Link>
+                    </DropdownMenuItem>
+                  )}
+                  <DropdownMenuItem onClick={handleLogout} className="focus:bg-white/5 focus:text-neon-volt cursor-pointer">
+                    Logout
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
           ) : (
             <Link 
-              href="/login" // Link to login page
+              href="/login"
               className="hidden sm:block text-xs font-bold uppercase tracking-widest bg-white text-black px-6 py-2 rounded-full hover:bg-neon-volt transition-colors"
             >
               Login
@@ -114,21 +144,43 @@ export function Header() {
                     {item.title}
                   </Link>
                 ))}
-                {status === 'authenticated' && (session.user as any).role === 'admin' && (
-                  <Link 
-                    href="/admin"
-                    className="text-3xl font-bold uppercase tracking-tight text-neon-volt hover:text-white transition-colors"
-                  >
-                    Dashboard
-                  </Link>
-                )}
-                {status === 'authenticated' ? (
-                  <Button 
-                    onClick={handleLogout} 
-                    className="mt-8 text-center font-bold uppercase tracking-widest bg-neon-volt text-black py-4 px-12 rounded-full w-full max-w-[250px]"
-                  >
-                    Logout
-                  </Button>
+                
+                {status === 'authenticated' && session?.user ? (
+                  <div className="flex flex-col items-center gap-4 mt-8 w-full">
+                    <div className="flex items-center gap-4 mb-4">
+                      {session.user.image ? (
+                        <img 
+                          src={session.user.image} 
+                          alt={session.user.name || "User"} 
+                          className="h-12 w-12 rounded-full object-cover border border-white/10"
+                        />
+                      ) : (
+                        <div className="h-12 w-12 rounded-full bg-slate-grey/20 flex items-center justify-center border border-white/10">
+                          <User className="h-6 w-6 text-white/50" />
+                        </div>
+                      )}
+                      <div className="text-left">
+                        <p className="text-sm font-bold text-white">{session.user.name}</p>
+                        <p className="text-xs text-white/50">{session.user.email}</p>
+                      </div>
+                    </div>
+                    
+                    {(session.user as any).role === 'admin' && (
+                       <Link 
+                        href="/admin"
+                        className="text-xl font-bold uppercase tracking-tight text-neon-volt hover:text-white transition-colors"
+                      >
+                        Dashboard
+                      </Link>
+                    )}
+                    
+                    <Button 
+                      onClick={handleLogout} 
+                      className="mt-4 text-center font-bold uppercase tracking-widest bg-neon-volt text-black py-4 px-12 rounded-full w-full max-w-[250px]"
+                    >
+                      Logout
+                    </Button>
+                  </div>
                 ) : (
                   <Link 
                     href="/login" 

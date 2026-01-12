@@ -15,4 +15,15 @@ export const auth = betterAuth({
       clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
     },
   },
+  callbacks: {
+    session: async ({ session, user }) => {
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          role: (user as any).role, // Ensure role is passed to the client
+        },
+      };
+    },
+  },
 });
