@@ -5,37 +5,22 @@ import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { PremiumCard } from '@/components/ui/premium-card'
-import { Zap, Target, Dumbbell, ArrowRight } from 'lucide-react'
+import * as Icons from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger)
 }
 
-const programs = [
-  {
-    title: "Boxing Tech",
-    description: "Master the sweet science. Focus on footwork, defensive maneuvers, and precision striking.",
-    intensity: "Medium - High",
-    icon: Target,
-    color: "text-blue-400"
-  },
-  {
-    title: "Boxfit",
-    description: "High-octane conditioning. Burn 800+ calories in a session designed to push your limits.",
-    intensity: "Ultra High",
-    icon: Zap,
-    color: "text-neon-volt"
-  },
-  {
-    title: "Strength & Cond",
-    description: "Build the engine behind the punch. Explosive power and functional athletic strength.",
-    intensity: "High",
-    icon: Dumbbell,
-    color: "text-red-500"
-  }
-]
+export interface ProgramData {
+  title: string
+  description: string
+  intensity: string
+  icon?: string
+  color?: string
+}
 
-export function Programs() {
+export function Programs({ programs = [] }: { programs?: ProgramData[] }) {
   const sectionRef = useRef<HTMLDivElement>(null)
 
   useGSAP(() => {
@@ -88,39 +73,42 @@ export function Programs() {
         </div>
 
         <div className="grid md:grid-cols-3 gap-8">
-          {programs.map((program, index) => (
-            <PremiumCard 
-              key={index} 
-              className="program-card group flex flex-col justify-between min-h-[400px] border-white/5 hover:border-neon-volt/30 transition-all duration-500"
-            >
-              <div className="space-y-8">
-                <div className={`w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center ${program.color} group-hover:scale-110 transition-transform duration-500`}>
-                  <program.icon className="w-8 h-8" />
+          {programs.map((program, index) => {
+            const Icon = (Icons as any)[program.icon || 'Zap'] || Icons.Zap
+            return (
+              <PremiumCard 
+                key={index} 
+                className="program-card group flex flex-col justify-between min-h-[400px] border-white/5 hover:border-neon-volt/30 transition-all duration-500"
+              >
+                <div className="space-y-8">
+                  <div className={`w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center ${program.color || 'text-neon-volt'} group-hover:scale-110 transition-transform duration-500`}>
+                    <Icon className="w-8 h-8" />
+                  </div>
+                  
+                  <div className="space-y-4">
+                    <h4 className="text-3xl font-black italic uppercase tracking-tight">{program.title}</h4>
+                    <p className="text-white/60 leading-relaxed">
+                      {program.description}
+                    </p>
+                  </div>
                 </div>
-                
-                <div className="space-y-4">
-                  <h4 className="text-3xl font-black italic uppercase tracking-tight">{program.title}</h4>
-                  <p className="text-white/60 leading-relaxed">
-                    {program.description}
-                  </p>
-                </div>
-              </div>
 
-              <div className="pt-8 space-y-6">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs uppercase tracking-widest text-white/30">Intensity</span>
-                  <span className={`text-xs font-bold uppercase px-3 py-1 rounded-full bg-white/5 ${program.color}`}>
-                    {program.intensity}
-                  </span>
+                <div className="pt-8 space-y-6">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs uppercase tracking-widest text-white/30">Intensity</span>
+                    <span className={`text-xs font-bold uppercase px-3 py-1 rounded-full bg-white/5 ${program.color || 'text-neon-volt'}`}>
+                      {program.intensity}
+                    </span>
+                  </div>
+                  
+                  <button className="flex items-center gap-2 text-white font-bold uppercase tracking-widest text-xs group/btn">
+                    Explore Track 
+                    <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-2 transition-transform" />
+                  </button>
                 </div>
-                
-                <button className="flex items-center gap-2 text-white font-bold uppercase tracking-widest text-xs group/btn">
-                  Explore Track 
-                  <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-2 transition-transform" />
-                </button>
-              </div>
-            </PremiumCard>
-          ))}
+              </PremiumCard>
+            )
+          })}
         </div>
       </div>
     </section>

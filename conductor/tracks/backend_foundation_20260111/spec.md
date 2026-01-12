@@ -12,9 +12,9 @@ This track transitions IRON & GLOVES from a static landing page to a dynamic, da
     - Support Email/Password login.
     - Support Google OAuth login.
     - Implement basic "User" and "Admin" roles.
-- **Content Management (Sanity):**
-    - Initialize Sanity.io Studio.
-    - Define schemas for: `Program`, `Coach`, and `ScheduleItem`.
+- **Content Management (Custom Admin Panel):**
+    - Implement a custom admin panel accessible via `/admin`.
+    - Provide interfaces to manage: `Program`, `Coach`, and `ScheduleItem` data.
 - **Dynamic Data Integration:**
     - Refactor `About`, `Programs`, `Coaches`, and `Schedule` sections to fetch data from Sanity via Next.js Server Components.
     - Implement a basic "Protected Route" pattern for authenticated users.

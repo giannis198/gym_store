@@ -35,5 +35,17 @@ export const program = {
       type: 'string',
       validation: (Rule: any) => Rule.required(),
     },
+    {
+      name: 'icon',
+      title: 'Icon Name',
+      type: 'string',
+      description: 'Lucide icon name (e.g., Zap, Target, Dumbbell)',
+    },
+    {
+      name: 'color',
+      title: 'Color Class',
+      type: 'string',
+      description: 'Tailwind color class (e.g., text-neon-volt, text-blue-400)',
+    },
   ],
 }
