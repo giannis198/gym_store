@@ -15,8 +15,10 @@
 - [x] Task: Conductor - User Manual Verification 'Authentication (BetterAuth)' (Protocol in workflow.md)
 
 ## Phase 3: Content Management (Custom Admin Panel)
-- [~] Task: Initialize Sanity CMS and define schemas for Programs, Coaches, and Schedule. (Skipped: User changed direction)
-- [x] Task: Refactor frontend components to fetch content from the Sanity Client. (Skipped: User changed direction)
-- [x] Task: Design and Implement a custom Admin Panel for content management. [b5dd7ef]
+- [x] Task: Define Prisma models for Program, Coach, and Schedule. [5fb0b90]
+- [~] Task: Implement API routes/Server Actions for CRUD operations on these models.
+- [x] Task: Design and Implement a basic Admin Panel layout at /admin. [b5dd7ef]
+- [ ] Task: Implement the Admin Panel UI for managing Programs, Coaches, and Schedule.
 - [x] Task: Implement a basic "Login" button in the header that reacts to auth state. [7960aee]
-- [~] Task: Conductor - User Manual Verification 'Content Management (Sanity)' (Protocol in workflow.md)
+- [ ] Task: Refactor frontend components (About, Programs, Coaches, Schedule) to fetch data from the database.
+- [ ] Task: Conductor - User Manual Verification 'Custom Admin Panel & Content Management' (Protocol in workflow.md)
