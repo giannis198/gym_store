@@ -1,8 +1,12 @@
-'use client'
+import React from 'react';
 
-import { NextStudio } from 'next-sanity/studio'
-import config from '../../../../sanity.config'
+const AdminPage = () => {
+  return (
+    <div>
+      <h1>Admin Panel</h1>
+      {/* Admin content will go here */}
+    </div>
+  );
+};
 
-export default function AdminPage() {
-  return <NextStudio config={config} />
-}
+export default AdminPage;
