@@ -7,8 +7,8 @@
 - [x] Task: Conductor - User Manual Verification 'Subscription Purchase' (Protocol in workflow.md)
 
 ## Phase 2: Interactive Booking System
-- [ ] Task: Update `ScheduleItem` model to include a `capacity` field (default 20).
-- [ ] Task: Implement `bookClass` Server Action with validation (subscription check, capacity check).
+- [x] Task: Update `ScheduleItem` model to include a `capacity` field (default 20). [580455e]
+- [~] Task: Implement `bookClass` Server Action with validation (subscription check, capacity check).
 - [ ] Task: Refactor `Schedule` component to show "Book" buttons and handle loading states.
 - [ ] Task: Conductor - User Manual Verification 'Class Booking' (Protocol in workflow.md)
 
