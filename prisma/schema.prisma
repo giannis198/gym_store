@@ -129,15 +129,29 @@ model Coach {
 }
 
 model ScheduleItem {
+
   id        String   @id @default(cuid())
+
   day       String
+
   time      String
+
+  capacity  Int      @default(20)
+
   programId String
+
   program   Program  @relation(fields: [programId], references: [id], onDelete: Cascade)
+
   coachId   String
+
   coach     Coach    @relation(fields: [coachId], references: [id], onDelete: Cascade)
+
   createdAt DateTime @default(now())
+
   updatedAt DateTime @updatedAt
 
+
+
   @@map("schedule_item")
+
 }
