@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { toast } from 'react-hot-toast';
 
 export default function SignupPage() {
   const [name, setName] = useState('');
@@ -25,10 +26,11 @@ export default function SignupPage() {
        callbackURL: '/',
        fetchOptions: {
         onSuccess: () => {
+             toast.success('Account created successfully!');
              router.push('/');
         },
         onError: (ctx) => {
-             alert(ctx.error.message);
+             toast.error(ctx.error.message);
              setLoading(false);
         }
       }

@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { toast } from 'react-hot-toast';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -23,10 +24,11 @@ export default function LoginPage() {
       callbackURL: '/',
       fetchOptions: {
         onSuccess: () => {
+             toast.success('Welcome back!');
              router.push('/');
         },
         onError: (ctx) => {
-             alert(ctx.error.message);
+             toast.error(ctx.error.message);
              setLoading(false);
         }
       }
