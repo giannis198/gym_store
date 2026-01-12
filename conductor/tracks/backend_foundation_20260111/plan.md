@@ -18,5 +18,5 @@
 - [~] Task: Initialize Sanity CMS and define schemas for Programs, Coaches, and Schedule. (Skipped: User changed direction)
 - [x] Task: Refactor frontend components to fetch content from the Sanity Client. (Skipped: User changed direction)
 - [x] Task: Design and Implement a custom Admin Panel for content management. [b5dd7ef]
-- [ ] Task: Implement a basic "Login" button in the header that reacts to auth state.
+- [x] Task: Implement a basic "Login" button in the header that reacts to auth state. [7960aee]
 - [ ] Task: Conductor - User Manual Verification 'Content Management (Sanity)' (Protocol in workflow.md)
