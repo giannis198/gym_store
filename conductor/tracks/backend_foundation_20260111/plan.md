@@ -9,7 +9,7 @@
 ## Phase 2: Authentication (BetterAuth)
 - [x] Task: Configure BetterAuth with the Prisma adapter and core options. [d5d8628]
 - [x] Task: Implement the 'Signup' and 'Login' API routes and client-side auth state. [8472cb1]
-- [ ] Task: Build the Authentication UI (Login/Signup pages) in "Modern Stealth" style.
+- [x] Task: Build the Authentication UI (Login/Signup pages) in "Modern Stealth" style. [dd9d849]
 - [ ] Task: Conductor - User Manual Verification 'Authentication (BetterAuth)' (Protocol in workflow.md)
 
 ## Phase 3: Content Management (Sanity)
