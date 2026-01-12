@@ -7,7 +7,7 @@
 - [ ] Task: Conductor - User Manual Verification 'Database & ORM Setup' (Protocol in workflow.md)
 
 ## Phase 2: Authentication (BetterAuth)
-- [ ] Task: Configure BetterAuth with the Prisma adapter and core options.
+- [x] Task: Configure BetterAuth with the Prisma adapter and core options. [d5d8628]
 - [ ] Task: Implement the 'Signup' and 'Login' API routes and client-side auth state.
 - [ ] Task: Build the Authentication UI (Login/Signup pages) in "Modern Stealth" style.
 - [ ] Task: Conductor - User Manual Verification 'Authentication (BetterAuth)' (Protocol in workflow.md)
