@@ -2,6 +2,7 @@
 
 import React from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation' // Import useRouter
 import { cn } from '@/lib/utils'
 import { Menu } from 'lucide-react'
 import {
@@ -18,6 +19,8 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
+import { Button } from '@/components/ui/button' // Assuming a Button component exists
+import { useSession, signOut } from '@/lib/auth-client' // Import useSession and signOut
 
 const navItems = [
   { title: "Programs", href: "/#programs" },
@@ -27,6 +30,14 @@ const navItems = [
 ]
 
 export function Header() {
+  const { data: session, status } = useSession(); // Use the session hook
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    await signOut();
+    router.push('/login'); // Redirect to login page after logout
+  };
+
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-matte-black/80 backdrop-blur-md border-b border-white/5">
       <div className="container mx-auto px-4 h-20 flex items-center justify-between">
@@ -53,12 +64,21 @@ export function Header() {
         </NavigationMenu>
 
         <div className="flex items-center gap-4">
-          <Link 
-            href="/#contact" 
-            className="hidden sm:block text-xs font-bold uppercase tracking-widest bg-white text-black px-6 py-2 rounded-full hover:bg-neon-volt transition-colors"
-          >
-            Join Now
-          </Link>
+          {status === 'authenticated' ? (
+            <Button 
+              onClick={handleLogout} 
+              className="hidden sm:block text-xs font-bold uppercase tracking-widest bg-white text-black px-6 py-2 rounded-full hover:bg-neon-volt transition-colors"
+            >
+              Logout
+            </Button>
+          ) : (
+            <Link 
+              href="/login" // Link to login page
+              className="hidden sm:block text-xs font-bold uppercase tracking-widest bg-white text-black px-6 py-2 rounded-full hover:bg-neon-volt transition-colors"
+            >
+              Login
+            </Link>
+          )}
 
           {/* Mobile Sidebar */}
           <Sheet>
@@ -86,12 +106,21 @@ export function Header() {
                     {item.title}
                   </Link>
                 ))}
-                <Link 
-                  href="/#contact" 
-                  className="mt-8 text-center font-bold uppercase tracking-widest bg-neon-volt text-black py-4 px-12 rounded-full w-full max-w-[250px]"
-                >
-                  Join Now
-                </Link>
+                {status === 'authenticated' ? (
+                  <Button 
+                    onClick={handleLogout} 
+                    className="mt-8 text-center font-bold uppercase tracking-widest bg-neon-volt text-black py-4 px-12 rounded-full w-full max-w-[250px]"
+                  >
+                    Logout
+                  </Button>
+                ) : (
+                  <Link 
+                    href="/login" 
+                    className="mt-8 text-center font-bold uppercase tracking-widest bg-neon-volt text-black py-4 px-12 rounded-full w-full max-w-[250px]"
+                  >
+                    Login
+                  </Link>
+                )}
               </nav>
             </SheetContent>
           </Sheet>
