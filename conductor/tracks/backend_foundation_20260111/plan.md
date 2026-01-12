@@ -14,8 +14,9 @@
 - [x] Task: Implement Google OAuth support in BetterAuth and add a "Sign in with Google" button. [8ad3fb0]
 - [x] Task: Conductor - User Manual Verification 'Authentication (BetterAuth)' (Protocol in workflow.md)
 
-## Phase 3: Content Management (Sanity)
-- [ ] Task: Initialize Sanity CMS and define schemas for Programs, Coaches, and Schedule.
-- [ ] Task: Refactor frontend components to fetch content from the Sanity Client.
+## Phase 3: Content Management (Custom Admin Panel)
+- [~] Task: Initialize Sanity CMS and define schemas for Programs, Coaches, and Schedule. (Skipped: User changed direction)
+- [x] Task: Refactor frontend components to fetch content from the Sanity Client. (Skipped: User changed direction)
+- [x] Task: Design and Implement a custom Admin Panel for content management. [b5dd7ef]
 - [ ] Task: Implement a basic "Login" button in the header that reacts to auth state.
 - [ ] Task: Conductor - User Manual Verification 'Content Management (Sanity)' (Protocol in workflow.md)
