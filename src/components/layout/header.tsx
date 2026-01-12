@@ -38,7 +38,7 @@ const navItems = [
 ]
 
 export function Header() {
-  const { data: session, status } = useSession();
+  const { data: session, isPending } = useSession();
   const router = useRouter();
 
   const handleLogout = async () => {
@@ -72,7 +72,7 @@ export function Header() {
         </NavigationMenu>
 
         <div className="flex items-center gap-4">
-          {status === 'authenticated' && session?.user ? (
+          {!isPending && session?.user ? (
             <div className="hidden sm:block">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -110,12 +110,14 @@ export function Header() {
               </DropdownMenu>
             </div>
           ) : (
-            <Link 
-              href="/login"
-              className="hidden sm:block text-xs font-bold uppercase tracking-widest bg-white text-black px-6 py-2 rounded-full hover:bg-neon-volt transition-colors"
-            >
-              Login
-            </Link>
+            !isPending && (
+              <Link 
+                href="/login"
+                className="hidden sm:block text-xs font-bold uppercase tracking-widest bg-white text-black px-6 py-2 rounded-full hover:bg-neon-volt transition-colors"
+              >
+                Login
+              </Link>
+            )
           )}
 
           {/* Mobile Sidebar */}
@@ -145,7 +147,7 @@ export function Header() {
                   </Link>
                 ))}
                 
-                {status === 'authenticated' && session?.user ? (
+                {!isPending && session?.user ? (
                   <div className="flex flex-col items-center gap-4 mt-8 w-full">
                     <div className="flex items-center gap-4 mb-4">
                       {session.user.image ? (

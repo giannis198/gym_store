@@ -23,6 +23,8 @@ export function Hero() {
         (context) => {
           const { isDesktop } = context.conditions!;
           const q = context.selector;
+          if (!q) return;
+
           const overlap = isDesktop ? 0.8 : 0.4;
 
           const tl = gsap.timeline({

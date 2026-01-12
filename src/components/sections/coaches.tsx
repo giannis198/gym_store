@@ -15,7 +15,7 @@ export interface CoachData {
   name: string
   role: string
   bio: string
-  image?: string
+  image?: string | null
 }
 
 export function Coaches({ coaches = [] }: { coaches?: CoachData[] }) {

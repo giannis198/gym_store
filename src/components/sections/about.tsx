@@ -69,6 +69,8 @@ export function About() {
           const { isDesktop } = context.conditions!;
           const q = context.selector;
 
+          if (!q) return;
+
           gsap.fromTo(
             q(".about-reveal"),
             { y: 100, opacity: 0 },

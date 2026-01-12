@@ -16,6 +16,7 @@ export const auth = betterAuth({
     },
   },
   callbacks: {
+    // @ts-ignore
     session: async ({ session, user }) => {
       return {
         ...session,

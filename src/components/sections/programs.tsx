@@ -16,8 +16,8 @@ export interface ProgramData {
   title: string
   description: string
   intensity: string
-  icon?: string
-  color?: string
+  icon?: string | null
+  color?: string | null
 }
 
 export function Programs({ programs = [] }: { programs?: ProgramData[] }) {
