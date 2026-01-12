@@ -1,10 +1,10 @@
 # Plan: Member Experience & Booking System
 
-## Phase 1: Subscription Checkout Logic
+## Phase 1: Subscription Checkout Logic [checkpoint: 09fdd7e]
 - [x] Task: Create a `checkout` Server Action to handle subscription purchase (mock payment).
 - [x] Task: Connect the `Pricing` component buttons to the `checkout` action.
 - [x] Task: Update the User Profile to reflect the newly purchased subscription immediately.
-- [~] Task: Conductor - User Manual Verification 'Subscription Purchase' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Subscription Purchase' (Protocol in workflow.md)
 
 ## Phase 2: Interactive Booking System
 - [ ] Task: Update `ScheduleItem` model to include a `capacity` field (default 20).
