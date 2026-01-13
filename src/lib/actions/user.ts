@@ -3,6 +3,7 @@
 import { prisma } from "@/lib/prisma"
 import { auth } from "@/lib/auth"
 import { headers } from "next/headers"
+import { revalidatePath } from "next/cache"
 
 export async function getUserProfile() {
   const session = await auth.api.getSession({
@@ -52,6 +53,9 @@ export async function cancelSubscription() {
     data: { status: 'CANCELLED', endDate: new Date() }
   })
   
+  revalidatePath('/profile')
+  revalidatePath('/')
+
   return { success: true }
 }
 
@@ -76,6 +80,9 @@ export async function cancelBooking(bookingId: string) {
     await prisma.classBooking.delete({
         where: { id: bookingId }
     })
+
+    revalidatePath('/profile')
+    revalidatePath('/')
 
     return { success: true }
 }

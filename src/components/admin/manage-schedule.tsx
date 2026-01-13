@@ -1,12 +1,52 @@
 'use client'
 
-import { useState } from 'react'
+import React from 'react'
 import { createScheduleItem, deleteScheduleItem } from '@/lib/actions/content'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Trash2, Plus } from 'lucide-react'
 import { toast } from 'react-hot-toast'
+import { z } from 'zod'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+
+const scheduleItemSchema = z.object({
+  day: z.enum(["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"], {
+    message: "Please select a day.",
+  }),
+  time: z.string().min(1, 'Time is required').regex(/^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9] (AM|PM)$/, "Invalid time format (e.g. 06:00 PM)"),
+  programId: z.string().min(1, 'Program is required'),
+  coachId: z.string().min(1, 'Coach is required'),
+})
+
+type ScheduleItemFormData = z.infer<typeof scheduleItemSchema>
 
 export function ManageSchedule({ 
   initialItems, 
@@ -17,24 +57,23 @@ export function ManageSchedule({
   programs: any[],
   coaches: any[]
 }) {
-  const [items, setItems] = useState(initialItems)
-  const [loading, setLoading] = useState(false)
+  const [items, setItems] = React.useState(initialItems)
+  const [loading, setLoading] = React.useState(false)
 
-  async function handleAdd(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault()
+  const form = useForm<ScheduleItemFormData>({
+    resolver: zodResolver(scheduleItemSchema),
+    defaultValues: {
+      day: 'Mon',
+      time: '',
+      programId: undefined,
+      coachId: undefined,
+    },
+  })
+
+  async function onSubmit(data: ScheduleItemFormData) {
     setLoading(true)
-    const formData = new FormData(e.currentTarget)
-    const data = {
-      day: formData.get('day') as string,
-      time: formData.get('time') as string,
-      programId: formData.get('programId') as string,
-      coachId: formData.get('coachId') as string,
-    }
-
     try {
       const newItem = await createScheduleItem(data)
-      // We need to fetch the full item with relations for display, 
-      // or just re-fetch all items. For simplicity here, we'll re-fetch or find the names.
       const program = programs.find(p => p.id === data.programId)
       const coach = coaches.find(c => c.id === data.coachId)
       
@@ -46,7 +85,12 @@ export function ManageSchedule({
 
       setItems([...items, itemWithRelations])
       toast.success('Schedule item added')
-      ;(e.target as HTMLFormElement).reset()
+      form.reset({
+        day: 'Mon',
+        time: '',
+        programId: undefined,
+        coachId: undefined,
+      }) // Reset form fields after successful submission
     } catch (error) {
       toast.error('Failed to add schedule item')
     } finally {
@@ -55,7 +99,6 @@ export function ManageSchedule({
   }
 
   async function handleDelete(id: string) {
-    if (!confirm('Are you sure?')) return
     try {
       await deleteScheduleItem(id)
       setItems(items.filter(i => i.id !== id))
@@ -67,45 +110,100 @@ export function ManageSchedule({
 
   return (
     <div className="space-y-8">
-      <form onSubmit={handleAdd} className="grid gap-4 p-6 bg-slate-grey/10 border border-white/5 rounded-2xl">
-        <div className="grid grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <Label>Day</Label>
-            <select name="day" required className="flex h-10 w-full rounded-md border border-white/10 bg-matte-black px-3 py-2 text-sm focus-visible:outline-none">
-              <option value="Mon">Monday</option>
-              <option value="Tue">Tuesday</option>
-              <option value="Wed">Wednesday</option>
-              <option value="Thu">Thursday</option>
-              <option value="Fri">Friday</option>
-              <option value="Sat">Saturday</option>
-              <option value="Sun">Sunday</option>
-            </select>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4 p-6 bg-slate-grey/10 border border-white/5 rounded-2xl">
+          <div className="grid grid-cols-2 gap-4">
+            <FormField
+              control={form.control}
+              name="day"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Day</FormLabel>
+                  <Select onValueChange={field.onChange} value={field.value}>
+                    <FormControl>
+                      <SelectTrigger className="flex h-10 w-full rounded-md border border-white/10 bg-matte-black px-3 py-2 text-sm focus:ring-offset-0">
+                        <SelectValue placeholder="Select a day" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent className="bg-matte-black border-white/10 text-white">
+                      <SelectItem value="Mon">Monday</SelectItem>
+                      <SelectItem value="Tue">Tuesday</SelectItem>
+                      <SelectItem value="Wed">Wednesday</SelectItem>
+                      <SelectItem value="Thu">Thursday</SelectItem>
+                      <SelectItem value="Fri">Friday</SelectItem>
+                      <SelectItem value="Sat">Saturday</SelectItem>
+                      <SelectItem value="Sun">Sunday</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="time"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Time</FormLabel>
+                  <FormControl>
+                    <Input placeholder="e.g. 06:00 PM" className="bg-matte-black border-white/10" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </div>
-          <div className="space-y-2">
-            <Label>Time</Label>
-            <Input name="time" required placeholder="e.g. 06:00 PM" className="bg-matte-black border-white/10" />
+          <div className="grid grid-cols-2 gap-4">
+            <FormField
+              control={form.control}
+              name="programId"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Program</FormLabel>
+                  <Select onValueChange={field.onChange} value={field.value}>
+                    <FormControl>
+                      <SelectTrigger className="flex h-10 w-full rounded-md border border-white/10 bg-matte-black px-3 py-2 text-sm focus:ring-offset-0">
+                        <SelectValue placeholder="Select a program" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent className="bg-matte-black border-white/10 text-white">
+                      {programs.map(p => (
+                        <SelectItem key={p.id} value={p.id}>{p.title}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="coachId"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Coach</FormLabel>
+                  <Select onValueChange={field.onChange} value={field.value}>
+                    <FormControl>
+                      <SelectTrigger className="flex h-10 w-full rounded-md border border-white/10 bg-matte-black px-3 py-2 text-sm focus:ring-offset-0">
+                        <SelectValue placeholder="Select a coach" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent className="bg-matte-black border-white/10 text-white">
+                      {coaches.map(c => (
+                        <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </div>
-        </div>
-        <div className="grid grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <Label>Program</Label>
-            <select name="programId" required className="flex h-10 w-full rounded-md border border-white/10 bg-matte-black px-3 py-2 text-sm focus-visible:outline-none">
-              <option value="">Select Program</option>
-              {programs.map(p => <option key={p.id} value={p.id}>{p.title}</option>)}
-            </select>
-          </div>
-          <div className="space-y-2">
-            <Label>Coach</Label>
-            <select name="coachId" required className="flex h-10 w-full rounded-md border border-white/10 bg-matte-black px-3 py-2 text-sm focus-visible:outline-none">
-              <option value="">Select Coach</option>
-              {coaches.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
-            </select>
-          </div>
-        </div>
-        <Button type="submit" disabled={loading} className="bg-neon-volt text-matte-black hover:bg-neon-volt/90 font-black italic uppercase">
-          <Plus className="w-4 h-4 mr-2" /> Add Schedule Item
-        </Button>
-      </form>
+          <Button type="submit" disabled={loading} className="bg-neon-volt text-matte-black hover:bg-neon-volt/90 font-black italic uppercase">
+            <Plus className="w-4 h-4 mr-2" /> Add Schedule Item
+          </Button>
+        </form>
+      </Form>
 
       <div className="grid gap-4">
         {items.map((item) => (
@@ -119,14 +217,29 @@ export function ManageSchedule({
                 <p className="text-sm text-white/40">{item.coach?.name}</p>
               </div>
             </div>
-            <Button 
-              variant="destructive" 
-              size="icon" 
-              onClick={() => handleDelete(item.id)}
-              className="opacity-0 group-hover:opacity-100 transition-opacity"
-            >
-              <Trash2 className="w-4 h-4" />
-            </Button>
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button 
+                  variant="destructive" 
+                  size="icon" 
+                  className="text-white hover:bg-red-600"
+                >
+                  <Trash2 className="w-4 h-4" />
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent className="bg-matte-black border-white/10 text-white">
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                  <AlertDialogDescription className="text-white/50">
+                    This action cannot be undone. This will permanently delete the schedule item for {item.program?.title} on {item.day} at {item.time}.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel className="bg-white/5 border-white/10 text-white hover:bg-white/10">Cancel</AlertDialogCancel>
+                  <AlertDialogAction onClick={() => handleDelete(item.id)} className="bg-red-500 text-white hover:bg-red-600">Delete</AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           </div>
         ))}
       </div>

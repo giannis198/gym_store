@@ -5,13 +5,14 @@ import { Coaches } from "@/components/sections/coaches";
 import { Pricing } from "@/components/sections/pricing";
 import { Schedule } from "@/components/sections/schedule";
 import { Contact } from "@/components/sections/contact";
-import { getPrograms, getCoaches, getScheduleItems } from "@/lib/actions/content";
+import { getPrograms, getCoaches, getScheduleItems, getPricing } from "@/lib/actions/content";
 
 export default async function Home() {
-  const [programs, coaches, scheduleItems] = await Promise.all([
+  const [programs, coaches, scheduleItems, pricing] = await Promise.all([
     getPrograms(),
     getCoaches(),
-    getScheduleItems()
+    getScheduleItems(),
+    getPricing()
   ]);
 
   return (
@@ -20,7 +21,7 @@ export default async function Home() {
       <About />
       <Programs programs={programs} />
       <Coaches coaches={coaches} />
-      <Pricing />
+      <Pricing initialPricing={pricing} />
       <Schedule scheduleItems={scheduleItems as any} />
       <Contact />
     </div>

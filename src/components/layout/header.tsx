@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { cn } from '@/lib/utils'
@@ -40,6 +40,11 @@ const navItems = [
 export function Header() {
   const { data: session, isPending } = useSession();
   const router = useRouter();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
   
   // Debugging session role
   if (session?.user) {
@@ -77,56 +82,62 @@ export function Header() {
         </NavigationMenu>
 
         <div className="flex items-center gap-4">
-          {!isPending && session?.user ? (
-            <div className="hidden sm:block">
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="relative h-10 w-10 rounded-full overflow-hidden border border-white/10 hover:border-neon-volt/50 transition-colors">
-                    {session.user.image ? (
-                      <img 
-                        src={session.user.image} 
-                        alt={session.user.name || "User"} 
-                        className="h-full w-full object-cover"
-                      />
-                    ) : (
-                      <div className="h-full w-full bg-slate-grey/20 flex items-center justify-center">
-                        <User className="h-5 w-5 text-white/50" />
+          {mounted ? (
+            !isPending && session?.user ? (
+              <div className="hidden sm:block">
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" className="relative h-10 w-10 rounded-full overflow-hidden border border-white/10 hover:border-neon-volt/50 transition-colors">
+                      {session.user.image ? (
+                        <img 
+                          src={session.user.image} 
+                          alt={session.user.name || "User"} 
+                          className="h-full w-full object-cover"
+                        />
+                      ) : (
+                        <div className="h-full w-full bg-slate-grey/20 flex items-center justify-center">
+                          <User className="h-5 w-5 text-white/50" />
+                        </div>
+                      )}
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="w-56 bg-matte-black border-white/10 text-white" align="end" forceMount>
+                    <DropdownMenuLabel className="font-normal">
+                      <div className="flex flex-col space-y-1">
+                        <p className="text-sm font-medium leading-none text-white">{session.user.name}</p>
+                        <p className="text-xs leading-none text-white/50">{session.user.email}</p>
                       </div>
+                    </DropdownMenuLabel>
+                    <DropdownMenuSeparator className="bg-white/10" />
+                    {(session.user as any).role === 'admin' && (
+                      <DropdownMenuItem asChild className="focus:bg-white/5 focus:text-neon-volt cursor-pointer">
+                        <Link href="/admin">Dashboard</Link>
+                      </DropdownMenuItem>
                     )}
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-56 bg-matte-black border-white/10 text-white" align="end" forceMount>
-                  <DropdownMenuLabel className="font-normal">
-                    <div className="flex flex-col space-y-1">
-                      <p className="text-sm font-medium leading-none text-white">{session.user.name}</p>
-                      <p className="text-xs leading-none text-white/50">{session.user.email}</p>
-                    </div>
-                  </DropdownMenuLabel>
-                  <DropdownMenuSeparator className="bg-white/10" />
-                  {(session.user as any).role === 'admin' && (
                     <DropdownMenuItem asChild className="focus:bg-white/5 focus:text-neon-volt cursor-pointer">
-                      <Link href="/admin">Dashboard</Link>
+                      <Link href="/profile">Profile</Link>
                     </DropdownMenuItem>
-                  )}
-                  <DropdownMenuItem asChild className="focus:bg-white/5 focus:text-neon-volt cursor-pointer">
-                    <Link href="/profile">Profile</Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={handleLogout} className="focus:bg-white/5 focus:text-neon-volt cursor-pointer">
-                    Logout
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
-          ) : (
-            !isPending && (
-              <Link 
-                href="/login"
-                className="hidden sm:block text-xs font-bold uppercase tracking-widest bg-white text-black px-6 py-2 rounded-full hover:bg-neon-volt transition-colors"
-              >
-                Login
-              </Link>
+                    <DropdownMenuItem onClick={handleLogout} className="focus:bg-white/5 focus:text-neon-volt cursor-pointer">
+                      Logout
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+            ) : (
+              !isPending && (
+                <Link 
+                  href="/login"
+                  className="hidden sm:block text-xs font-bold uppercase tracking-widest bg-white text-black px-6 py-2 rounded-full hover:bg-neon-volt transition-colors"
+                >
+                  Login
+                </Link>
+              )
             )
+          ) : (
+            // Render a consistent placeholder on server and until client mounts
+            <div className="hidden sm:block h-10 w-10 rounded-full bg-slate-grey/20" />
           )}
+          
 
           {/* Mobile Sidebar */}
           <Sheet>

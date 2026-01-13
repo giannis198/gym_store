@@ -10,35 +10,16 @@ import { Check } from 'lucide-react'
 import { purchaseSubscription } from '@/lib/actions/checkout'
 import { toast } from 'react-hot-toast'
 import { useRouter } from 'next/navigation'
+import { PricingData } from '@/lib/types'
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger)
 }
 
-const tiers = [
-  {
-    name: "Basic",
-    price: "49",
-    features: ["2 Classes Per Week", "Locker Room Access", "Basic Equipment Hire", "Community Events"],
-    recommended: false
-  },
-  {
-    name: "Pro",
-    price: "89",
-    features: ["Unlimited Classes", "Open Gym Access", "1 Personal Training / Mo", "Nutrition Workshop"],
-    recommended: true
-  },
-  {
-    name: "Elite",
-    price: "149",
-    features: ["Unlimited Everything", "Private Recovery Suite", "4 Personal Training / Mo", "Custom Fight Gear Kit"],
-    recommended: false
-  }
-]
-
-export function Pricing() {
+export function Pricing({ initialPricing }: { initialPricing: PricingData }) {
   const sectionRef = useRef<HTMLDivElement>(null)
   const router = useRouter()
+  const tiers = initialPricing.tiers
 
   const handlePurchase = async (tier: string) => {
     try {

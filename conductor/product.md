@@ -44,7 +44,7 @@ IRON & GLOVES is a premium, modern boxing gym designed for fitness enthusiasts a
 - **Modern Professionals:** Users who value efficiency, high-end facilities, and a focused, athletic atmosphere.
 
 ## Core Goals
-1. **Membership Conversion:** The primary objective is to convert visitors into long-term members by clearly articulating the value and prestige of the club.
+1. **Membership Conversion:** The primary objective is to convert visitors into long-term members. This includes a streamlined subscription purchase flow and an intuitive user journey from interest to sign-up for classes.
 2. **Brand Immersion:** Create a "Modern Stealth" aesthetic that positions IRON & GLOVES as an aspirational lifestyle brand.
 3. **Information Clarity:** Provide seamless access to training programs, schedules, and membership tiers.
 
@@ -55,6 +55,9 @@ IRON & GLOVES is a premium, modern boxing gym designed for fitness enthusiasts a
 - **Program Spotlights:** Detailed overviews of training tracks like Boxfit, Technical Boxing, and Strength & Conditioning.
 - **Dynamic Schedule:** A modern, easy-to-navigate interface for viewing class times and availability.
 - **Coach Profiles:** Showcasing the expertise and personality of the training staff.
+- **Subscription Management:** Users can now purchase and manage their training subscriptions directly through the website, with immediate updates to their profile.
+- **Interactive Class Booking:** The schedule has been transformed into a dynamic booking system, allowing authenticated members to reserve spots in classes with real-time capacity checks.
+- **Personalized User Profiles:** Members have a dedicated profile section where they can view and manage their upcoming classes and subscription details.
 
 ## Design & Motion Strategy
 - **Visual System:** "Modern Stealth" palette—Matte Black and Slate Grey with high-visibility Neon accents (e.g., Electric Volt).

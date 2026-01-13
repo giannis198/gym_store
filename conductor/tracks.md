@@ -19,6 +19,6 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ---
 
-## [~] Track: Member Experience & Booking System
+## [x] Track: Member Experience & Booking System
 *Link: [./conductor/tracks/member_experience_20260113/](./conductor/tracks/member_experience_20260113/)*
 

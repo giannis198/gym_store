@@ -108,3 +108,46 @@ export async function deleteScheduleItem(id: string) {
   await prisma.scheduleItem.delete({ where: { id } })
   revalidatePath('/')
 }
+
+// Pricing Actions
+import { PricingData } from '@/lib/types'
+
+const hardcodedTiers: PricingData = {
+  tiers: [
+    {
+      name: "Basic",
+      price: "49",
+      features: ["2 Classes Per Week", "Locker Room Access", "Basic Equipment Hire", "Community Events"],
+      recommended: false
+    },
+    {
+      name: "Pro",
+      price: "89",
+      features: ["Unlimited Classes", "Open Gym Access", "1 Personal Training / Mo", "Nutrition Workshop"],
+      recommended: true
+    },
+    {
+      name: "Elite",
+      price: "149",
+      features: ["Unlimited Everything", "Private Recovery Suite", "4 Personal Training / Mo", "Custom Fight Gear Kit"],
+      recommended: false
+    }
+  ]
+}
+
+export async function getPricing() {
+  // For now, return hardcoded tiers.
+  // In a real application, this would fetch from a database or CMS.
+  return hardcodedTiers
+}
+
+export async function updatePricing(updatedPricing: PricingData) {
+  // For now, this will "update" the hardcoded tiers.
+  // In a real application, this would update the database or CMS.
+  Object.assign(hardcodedTiers, updatedPricing)
+
+  revalidatePath('/admin')
+  revalidatePath('/')
+
+  return { success: true }
+}

@@ -1,22 +1,46 @@
 'use client'
 
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { PremiumButton } from '@/components/ui/premium-button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
-import { Label } from '@/components/ui/label'
+import { Label } from '@/components/ui/label' // Keep Label for direct use outside FormField if needed
 import { Mail, Phone, MapPin } from 'lucide-react'
+import { toast } from 'react-hot-toast'
+import { z } from 'zod'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form'
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger)
 }
 
+const contactFormSchema = z.object({
+  name: z.string().min(1, 'Your name is required'),
+  email: z.string().email('Please enter a valid email address'),
+  message: z.string().min(10, 'Message must be at least 10 characters').max(500, 'Message cannot exceed 500 characters'),
+});
+
+type ContactFormData = z.infer<typeof contactFormSchema>;
+
 export function Contact() {
   const sectionRef = useRef<HTMLDivElement>(null)
-  const [formStatus, setFormStatus] = useState<'idle' | 'submitting' | 'success'>('idle')
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useGSAP(() => {
     gsap.from('.contact-reveal', {
@@ -35,11 +59,26 @@ export function Contact() {
     ScrollTrigger.refresh()
   }, { scope: sectionRef })
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    setFormStatus('submitting')
-    setTimeout(() => setFormStatus('success'), 1500)
-  }
+  const form = useForm<ContactFormData>({
+    resolver: zodResolver(contactFormSchema),
+    defaultValues: {
+      name: '',
+      email: '',
+      message: '',
+    },
+  });
+
+  const [submissionStatus, setSubmissionStatus] = useState<'idle' | 'submitting' | 'success'>('idle');
+
+  const onSubmit = async (data: ContactFormData) => {
+    setSubmissionStatus('submitting');
+    // Simulate API call
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    console.log(data); // Log form data
+    setSubmissionStatus('success');
+    toast.success('Message sent successfully!');
+    form.reset(); // Reset form after successful submission
+  };
 
   return (
     <section 
@@ -91,7 +130,11 @@ export function Contact() {
           </div>
 
           <div className="contact-reveal bg-slate-grey/10 border border-white/5 p-8 md:p-12 rounded-3xl relative">
-            {formStatus === 'success' ? (
+            {!mounted ? (
+              <div className="h-[400px] flex items-center justify-center">
+                <p className="text-white/50">Loading contact form...</p>
+              </div>
+            ) : submissionStatus === 'success' ? (
               <div className="h-[400px] flex flex-col items-center justify-center text-center space-y-6">
                 <div className="w-20 h-20 bg-neon-volt rounded-full flex items-center justify-center">
                   <div className="w-10 h-10 border-4 border-matte-black border-t-transparent rounded-full animate-spin hidden" />
@@ -100,50 +143,76 @@ export function Contact() {
                 <h4 className="text-3xl font-black italic uppercase tracking-tight">Message Received</h4>
                 <p className="text-white/50">Our team will reach out within 24 hours.</p>
                 <button 
-                  onClick={() => setFormStatus('idle')}
+                  onClick={() => setSubmissionStatus('idle')}
                   className="text-neon-volt font-bold uppercase tracking-widest text-xs hover:underline"
                 >
                   Send another message
                 </button>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-8">
-                <div className="space-y-2">
-                  <Label htmlFor="name" className="text-xs uppercase tracking-widest text-white/40">Name</Label>
-                  <Input 
-                    id="name" 
-                    required 
-                    placeholder="Your Name" 
-                    className="bg-transparent border-white/10 h-14 focus-visible:ring-neon-volt text-white"
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+                  <FormField
+                    control={form.control}
+                    name="name"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-xs uppercase tracking-widest text-white/40">Name</FormLabel>
+                        <FormControl>
+                          <Input 
+                            placeholder="Your Name" 
+                            className="bg-transparent border-white/10 h-14 focus-visible:ring-neon-volt text-white"
+                            {...field} 
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
                   />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="email" className="text-xs uppercase tracking-widest text-white/40">Email</Label>
-                  <Input 
-                    id="email" 
-                    type="email" 
-                    required 
-                    placeholder="Email Address" 
-                    className="bg-transparent border-white/10 h-14 focus-visible:ring-neon-volt text-white"
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-xs uppercase tracking-widest text-white/40">Email</FormLabel>
+                        <FormControl>
+                          <Input 
+                            type="email"
+                            placeholder="Email Address" 
+                            className="bg-transparent border-white/10 h-14 focus-visible:ring-neon-volt text-white"
+                            {...field} 
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
                   />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="message" className="text-xs uppercase tracking-widest text-white/40">Message</Label>
-                  <Textarea 
-                    id="message" 
-                    required 
-                    placeholder="Your Message" 
-                    className="bg-transparent border-white/10 min-h-[150px] focus-visible:ring-neon-volt text-white resize-none"
+                  <FormField
+                    control={form.control}
+                    name="message"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-xs uppercase tracking-widest text-white/40">Message</FormLabel>
+                        <FormControl>
+                          <Textarea 
+                            placeholder="Your Message" 
+                            className="bg-transparent border-white/10 min-h-[150px] focus-visible:ring-neon-volt text-white resize-none"
+                            {...field} 
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
                   />
-                </div>
-                <PremiumButton 
-                  type="submit" 
-                  disabled={formStatus === 'submitting'}
-                  className="w-full py-8 text-lg"
-                >
-                  {formStatus === 'submitting' ? 'Sending...' : 'Send Message'}
-                </PremiumButton>
-              </form>
+                  <PremiumButton 
+                    type="submit" 
+                    disabled={submissionStatus === 'submitting'}
+                    className="w-full py-8 text-lg"
+                  >
+                    {submissionStatus === 'submitting' ? 'Sending...' : 'Send Message'}
+                  </PremiumButton>
+                </form>
+              </Form>
             )}
           </div>
         </div>

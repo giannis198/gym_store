@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import React from 'react'
 import { createCoach, deleteCoach } from '@/lib/actions/content'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -8,27 +8,61 @@ import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Trash2, Plus } from 'lucide-react'
 import { toast } from 'react-hot-toast'
+import { z } from 'zod'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { AlertCircle } from "lucide-react"
+
+const coachSchema = z.object({
+  name: z.string().min(1, 'Coach name is required'),
+  role: z.string().min(1, 'Role is required'),
+  bio: z.string().min(1, 'Bio is required'),
+  image: z.string().url('Must be a valid URL').optional().or(z.literal('')),
+})
+
+type CoachFormData = z.infer<typeof coachSchema>
 
 export function ManageCoaches({ initialCoaches }: { initialCoaches: any[] }) {
-  const [coaches, setCoaches] = useState(initialCoaches)
-  const [loading, setLoading] = useState(false)
+  const [coaches, setCoaches] = React.useState(initialCoaches)
+  const [loading, setLoading] = React.useState(false)
 
-  async function handleAdd(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault()
+  const form = useForm<CoachFormData>({
+    resolver: zodResolver(coachSchema),
+    defaultValues: {
+      name: '',
+      role: '',
+      bio: '',
+      image: '',
+    },
+  })
+
+  async function onSubmit(data: CoachFormData) {
     setLoading(true)
-    const formData = new FormData(e.currentTarget)
-    const data = {
-      name: formData.get('name') as string,
-      role: formData.get('role') as string,
-      bio: formData.get('bio') as string,
-      image: (formData.get('image') as string) || undefined,
-    }
-
     try {
       const newCoach = await createCoach(data)
       setCoaches([...coaches, newCoach])
       toast.success('Coach added')
-      ;(e.target as HTMLFormElement).reset()
+      form.reset() // Reset form fields after successful submission
     } catch (error) {
       toast.error('Failed to add coach')
     } finally {
@@ -49,29 +83,75 @@ export function ManageCoaches({ initialCoaches }: { initialCoaches: any[] }) {
 
   return (
     <div className="space-y-8">
-      <form onSubmit={handleAdd} className="grid gap-4 p-6 bg-slate-grey/10 border border-white/5 rounded-2xl">
-        <div className="grid grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <Label>Name</Label>
-            <Input name="name" required placeholder="Coach Name" className="bg-matte-black border-white/10" />
+      <Alert variant="destructive" className="bg-red-500/10 border-red-500/20 text-red-500">
+        <AlertCircle className="h-4 w-4" />
+        <AlertTitle>Important</AlertTitle>
+        <AlertDescription>
+          Deleting a coach will also remove all their associated schedule items.
+        </AlertDescription>
+      </Alert>
+
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4 p-6 bg-slate-grey/10 border border-white/5 rounded-2xl">
+          <div className="grid grid-cols-2 gap-4">
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Coach Name" className="bg-matte-black border-white/10" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="role"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Role</FormLabel>
+                  <FormControl>
+                    <Input placeholder="e.g. Head Coach" className="bg-matte-black border-white/10" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </div>
-          <div className="space-y-2">
-            <Label>Role</Label>
-            <Input name="role" required placeholder="e.g. Head Coach" className="bg-matte-black border-white/10" />
-          </div>
-        </div>
-        <div className="space-y-2">
-          <Label>Bio</Label>
-          <Textarea name="bio" required placeholder="Coach biography" className="bg-matte-black border-white/10 min-h-[100px]" />
-        </div>
-        <div className="space-y-2">
-          <Label>Image URL</Label>
-          <Input name="image" placeholder="https://..." className="bg-matte-black border-white/10" />
-        </div>
-        <Button type="submit" disabled={loading} className="bg-neon-volt text-matte-black hover:bg-neon-volt/90 font-black italic uppercase">
-          <Plus className="w-4 h-4 mr-2" /> Add Coach
-        </Button>
-      </form>
+          <FormField
+            control={form.control}
+            name="bio"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Bio</FormLabel>
+                <FormControl>
+                  <Textarea placeholder="Coach biography" className="bg-matte-black border-white/10 min-h-[100px]" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="image"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Image URL</FormLabel>
+                <FormControl>
+                  <Input placeholder="https://..." className="bg-matte-black border-white/10" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button type="submit" disabled={loading} className="bg-neon-volt text-matte-black hover:bg-neon-volt/90 font-black italic uppercase">
+            <Plus className="w-4 h-4 mr-2" /> Add Coach
+          </Button>
+        </form>
+      </Form>
 
       <div className="grid gap-4">
         {coaches.map((coach) => (
@@ -85,14 +165,29 @@ export function ManageCoaches({ initialCoaches }: { initialCoaches: any[] }) {
                 <p className="text-sm text-white/40">{coach.role}</p>
               </div>
             </div>
-            <Button 
-              variant="destructive" 
-              size="icon" 
-              onClick={() => handleDelete(coach.id)}
-              className="opacity-0 group-hover:opacity-100 transition-opacity"
-            >
-              <Trash2 className="w-4 h-4" />
-            </Button>
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button 
+                  variant="destructive" 
+                  size="icon" 
+                  className="text-white hover:bg-red-600"
+                >
+                  <Trash2 className="w-4 h-4" />
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent className="bg-matte-black border-white/10 text-white">
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                  <AlertDialogDescription className="text-white/50">
+                    This action cannot be undone. This will permanently delete the coach {coach.name}.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel className="bg-white/5 border-white/10 text-white hover:bg-white/10">Cancel</AlertDialogCancel>
+                  <AlertDialogAction onClick={() => handleDelete(coach.id)} className="bg-red-500 text-white hover:bg-red-600">Delete</AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           </div>
         ))}
       </div>
