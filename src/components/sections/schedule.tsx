@@ -5,7 +5,12 @@ import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Clock, User } from 'lucide-react'
+import { Clock, User, Loader2 } from 'lucide-react'
+import { useSession } from '@/lib/auth-client'
+import { bookClass } from '@/lib/actions/booking'
+import { toast } from 'react-hot-toast'
+import { Button } from '@/components/ui/button'
+import { useRouter } from 'next/navigation'
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger)
@@ -21,11 +26,15 @@ export interface ScheduleItemData {
 
 export function Schedule({ scheduleItems = [] }: { scheduleItems?: ScheduleItemData[] }) {
   const sectionRef = useRef<HTMLDivElement>(null)
+  const { data: session } = useSession()
+  const [bookingId, setBookingId] = React.useState<string | null>(null)
+  const router = useRouter()
 
   const scheduleData: Record<string, any[]> = scheduleItems.reduce((acc, item) => {
     const day = item.day
     if (!acc[day]) acc[day] = []
     acc[day].push({
+      id: item.id,
       time: item.time,
       program: item.program.title,
       coach: item.coach.name
@@ -34,6 +43,26 @@ export function Schedule({ scheduleItems = [] }: { scheduleItems?: ScheduleItemD
   }, {} as any)
 
   const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].filter(day => scheduleData[day])
+
+  const handleBooking = async (itemId: string) => {
+    if (!session) {
+      toast.error("Please login to book a class")
+      router.push('/login')
+      return
+    }
+
+    setBookingId(itemId)
+    try {
+      // For this prototype, we book for "today" or rather we don't have a date selector yet.
+      // So we just pass a Date object.
+      await bookClass(itemId, new Date())
+      toast.success("Class booked successfully!")
+    } catch (error: any) {
+      toast.error(error.message || "Failed to book class")
+    } finally {
+      setBookingId(null)
+    }
+  }
 
   useGSAP(() => {
     gsap.from('.schedule-header', {
@@ -98,9 +127,23 @@ export function Schedule({ scheduleItems = [] }: { scheduleItems?: ScheduleItemD
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-3 text-white/40">
-                    <User className="w-4 h-4" />
-                    <span className="text-sm font-bold uppercase tracking-widest">{item.coach}</span>
+                  <div className="flex flex-col md:flex-row items-center gap-6">
+                    <div className="flex items-center gap-3 text-white/40">
+                      <User className="w-4 h-4" />
+                      <span className="text-sm font-bold uppercase tracking-widest">{item.coach}</span>
+                    </div>
+
+                    <Button 
+                      onClick={() => handleBooking(item.id)}
+                      disabled={bookingId === item.id}
+                      className="bg-neon-volt text-matte-black hover:bg-white transition-colors font-bold uppercase italic tracking-widest px-8"
+                    >
+                      {bookingId === item.id ? (
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                      ) : (
+                        "Book"
+                      )}
+                    </Button>
                   </div>
                 </div>
               ))}
